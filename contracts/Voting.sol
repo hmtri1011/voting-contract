@@ -28,6 +28,11 @@ contract Voting is Ownable {
         votePrice = _votePrice;
     }
 
+    function setVoteToken(address _tokenAddress) external {
+        require(msg.sender == owner(), "Only the owner can set the vote token");
+        voteToken = IERC20(_tokenAddress);
+    }
+
     function upvote(
         string memory imageId,
         uint amount,
