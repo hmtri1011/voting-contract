@@ -14,6 +14,7 @@ contract Voting is Ownable {
         address indexed voter,
         string indexed imageId,
         string cosplayerId,
+        string eventId,
         uint256 amount,
         uint256 timestamp
     );
@@ -36,13 +37,21 @@ contract Voting is Ownable {
     function upvote(
         string memory imageId,
         uint amount,
-        string memory cosplayerId
+        string memory cosplayerId,
+        string memory eventId
     ) public payable {
         require(amount > 0, "Amount must be greater than zero");
         uint voteValue = votePrice * amount;
         require(msg.value >= voteValue, "Not enough ether to vote");
         votes[imageId] += amount;
-        emit Voted(msg.sender, imageId, cosplayerId, amount, block.timestamp);
+        emit Voted(
+            msg.sender,
+            imageId,
+            cosplayerId,
+            eventId,
+            amount,
+            block.timestamp
+        );
         voteToken.transferFrom(msg.sender, address(this), voteValue);
     }
 
